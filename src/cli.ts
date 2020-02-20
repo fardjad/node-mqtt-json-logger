@@ -10,7 +10,7 @@ export const showUsage = () => {
       "",
       "Options:",
       "  -h, --help\t\tOutput usage information",
-      "  -c, --config\tPath to the config file"
+      "  -c, --config\t\tPath to the config file"
     ].join("\n")
   );
 };

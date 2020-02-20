@@ -8,6 +8,10 @@ type BrokerConfig = {
 type TopicSettings = {
   topic: string;
   path: string;
+  size?: string;
+  interval?: string;
+  maxFiles?: number;
+  compress?: "gzip";
 };
 
 export type Config = {

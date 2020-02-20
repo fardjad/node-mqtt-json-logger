@@ -7,6 +7,10 @@ password = "password"
 [[topics]]
 topic = "topic1/#"
 path = "topic1.log"
+size = "1G"
+interval = "1d"
+maxFiles = 14
+compress = "gzip"
 
 [[topics]]
 topic = "topic2/#"

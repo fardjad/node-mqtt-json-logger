@@ -55,53 +55,60 @@ const main = recoverable(defer => async () => {
 
   logger.info(`Connected to MQTT broker: ${config.broker.url}`);
 
-  config.topics.forEach(async ({ topic: pattern, path }) => {
-    await mqttClient.subscribe(pattern, {
-      qos: 1
-    });
+  config.topics.forEach(
+    async ({ topic: pattern, path, compress, interval, maxFiles, size }) => {
+      await mqttClient.subscribe(pattern, {
+        qos: 1
+      });
 
-    logger.info(`Subscribed to topic: ${pattern}`);
+      logger.info(`Subscribed to topic: ${pattern}`);
 
-    const rotatingLogWriter = new RotatingLogWriter(path);
+      const rotatingLogWriter = new RotatingLogWriter(path, {
+        compress,
+        interval,
+        maxFiles,
+        size
+      });
 
-    mqttClient.on(
-      "message",
-      recoverable(defer => async (topic, payload) => {
-        const payloadString = payload.toString();
+      mqttClient.on(
+        "message",
+        recoverable(defer => async (topic, payload) => {
+          const payloadString = payload.toString();
 
-        defer(recover => {
-          const err = recover();
+          defer(recover => {
+            const err = recover();
 
-          if (!err) {
-            return;
-          }
+            if (!err) {
+              return;
+            }
 
-          if (err instanceof SyntaxError) {
-            logger.debug("Received invalid payload", { payloadString });
-            return;
-          }
+            if (err instanceof SyntaxError) {
+              logger.debug("Received invalid payload", { payloadString });
+              return;
+            }
 
-          logger.error(`Cannot store the message!`, {
-            topic,
-            payloadString,
-            err
+            logger.error(`Cannot store the message!`, {
+              topic,
+              payloadString,
+              err
+            });
           });
-        });
 
-        if (!mqttPattern.matches(pattern, topic)) {
-          return;
-        }
+          if (!mqttPattern.matches(pattern, topic)) {
+            return;
+          }
 
-        const message = {
-          pattern,
-          topic,
-          payload: JSON.parse(payloadString)
-        };
+          const message = {
+            pattern,
+            topic,
+            payload: JSON.parse(payloadString)
+          };
 
-        await rotatingLogWriter.write(message);
-      })
-    );
-  });
+          await rotatingLogWriter.write(message);
+        })
+      );
+    }
+  );
 });
 
 main();

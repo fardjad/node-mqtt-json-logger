@@ -6,7 +6,7 @@
 
 - [x] Ignores non-JSON messages
 - [x] Logs messages in [JSON Lines][2] format
-- [ ] Supports log rotation and compression
+- [x] Supports log rotation and compression
 
 ## Install
 
@@ -28,6 +28,10 @@ password = "password"
 [[topics]]
 topic = "topic1/#"
 path = "topic1.log"
+size = "1G"
+interval = "1d"
+maxFiles = 14
+compress = "gzip"
 
 [[topics]]
 topic = "topic2/#"

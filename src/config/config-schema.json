@@ -2,11 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "required": ["broker", "topics"],
+  "additionalProperties": false,
   "properties": {
     "broker": {
       "$id": "#/properties/broker",
       "type": "object",
       "required": ["url"],
+      "additionalProperties": false,
       "properties": {
         "url": {
           "$id": "#/properties/broker/properties/url",
@@ -41,6 +43,7 @@
         "$id": "#/properties/topics/items",
         "type": "object",
         "required": ["topic", "path"],
+        "additionalProperties": false,
         "properties": {
           "topic": {
             "$id": "#/properties/topics/items/properties/topic",
@@ -53,6 +56,29 @@
             "type": "string",
             "examples": ["topic1.log"],
             "pattern": "^(.*)$"
+          },
+          "size": {
+            "$id": "#/properties/topics/items/properties/size",
+            "type": "string",
+            "examples": ["1G"],
+            "pattern": "^\\d+(B|K|M|G)$"
+          },
+          "interval": {
+            "$id": "#/properties/topics/items/properties/interval",
+            "type": "string",
+            "examples": ["1d"],
+            "pattern": "^\\d+(s|m|h|d|M)$"
+          },
+          "maxFiles": {
+            "$id": "#/properties/topics/items/properties/maxFiles",
+            "type": "integer",
+            "examples": [14]
+          },
+          "compress": {
+            "$id": "#/properties/topics/items/properties/compress",
+            "type": "string",
+            "examples": ["gzip"],
+            "pattern": "^gzip$"
           }
         }
       }
