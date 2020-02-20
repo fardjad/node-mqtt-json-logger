@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["broker", "topics"],
+  "properties": {
+    "broker": {
+      "$id": "#/properties/broker",
+      "type": "object",
+      "required": ["url"],
+      "properties": {
+        "url": {
+          "$id": "#/properties/broker/properties/url",
+          "type": "string",
+          "examples": ["tcp://broker"],
+          "pattern": "^(.*)$"
+        },
+        "clientId": {
+          "$id": "#/properties/broker/properties/clientId",
+          "type": "string",
+          "examples": ["mqtt-json-logger"],
+          "pattern": "^(.*)$"
+        },
+        "username": {
+          "$id": "#/properties/broker/properties/username",
+          "type": "string",
+          "examples": ["username"],
+          "pattern": "^(.*)$"
+        },
+        "password": {
+          "$id": "#/properties/broker/properties/password",
+          "type": "string",
+          "examples": ["password"],
+          "pattern": "^(.*)$"
+        }
+      }
+    },
+    "topics": {
+      "$id": "#/properties/topics",
+      "type": "array",
+      "items": {
+        "$id": "#/properties/topics/items",
+        "type": "object",
+        "required": ["topic", "path"],
+        "properties": {
+          "topic": {
+            "$id": "#/properties/topics/items/properties/topic",
+            "type": "string",
+            "examples": ["topic1/#"],
+            "pattern": "^(.*)$"
+          },
+          "path": {
+            "$id": "#/properties/topics/items/properties/path",
+            "type": "string",
+            "examples": ["topic1.log"],
+            "pattern": "^(.*)$"
+          }
+        }
+      }
+    }
+  }
+}
