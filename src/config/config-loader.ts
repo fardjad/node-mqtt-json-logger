@@ -39,8 +39,10 @@ export const readAndValidateConfig = (path: string): Config => {
 
   let config: Config;
   try {
+    // parse and validate the TOML
     config = parse(configFileContents);
   } catch (ex) {
+    // toml error objects contain line and column properties
     throw new ConfigError(ex.message, ex.line, ex.column);
   }
 

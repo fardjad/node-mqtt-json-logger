@@ -4,9 +4,9 @@
 
 ## Features
 
-- Ignores non-JSON messages
-- Logs messages in [JSON Lines][2] format
-- Supports log rotation and compression
+- [x] Ignores non-JSON messages
+- [x] Logs messages in [JSON Lines][2] format
+- [ ] Supports log rotation and compression
 
 ## Install
 

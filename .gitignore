@@ -3,3 +3,4 @@ dist
 start-dev.sh
 config.toml
 *.log
+*.log.txt
