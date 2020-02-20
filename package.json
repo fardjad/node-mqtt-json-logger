@@ -1,0 +1,35 @@
+{
+  "name": "node-mqtt-logger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/index.js",
+    "start:dev": "ts-node-dev --respawn --transpileOnly src/index.ts | pino-pretty",
+    "test": "jest",
+    "test:debug": "node --inspect-brk ../../node_modules/.bin/jest --runInBand",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [],
+  "author": "Fardjad Davari <public@fardjad.com>",
+  "license": "MIT",
+  "dependencies": {
+    "async-mqtt": "^2.5.0",
+    "longjohn": "^0.2.12",
+    "mqtt": "^3.0.0",
+    "pino": "^5.16.0",
+    "toml": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.1.1",
+    "@types/mqtt": "^2.5.0",
+    "@types/pino": "^5.15.5",
+    "jest": "^25.1.0",
+    "pino-pretty": "^3.5.0",
+    "ts-jest": "^25.2.0",
+    "ts-node": "^8.6.2",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.7.5"
+  }
+}

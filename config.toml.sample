@@ -1,0 +1,12 @@
+broker.url = "tcp://broker"
+broker.clientId = "mqtt-json-logger"
+broker.username = "username"
+broker.password = "password"
+
+[[topics]]
+topic="topic1/#"
+path="/var/log/mqtt-json-logger/topic1.log"
+
+[[topics]]
+topic="topic2/#"
+path="/var/log/mqtt-json-logger/topic2.log"
