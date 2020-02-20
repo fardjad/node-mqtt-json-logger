@@ -18,18 +18,21 @@ mqtt-json-logger -c '/path/to/config-file.toml'
 
 ## Configuration File
 
-    broker.url = "tcp://broker"
-    broker.clientId = "mqtt-json-logger"
-    broker.username = "username"
-    broker.password = "password"
+```toml
+[broker]
+url = "tcp://broker"
+clientId = "mqtt-json-logger"
+username = "username"
+password = "password"
 
-    [[topics]]
-    topic="topic1/#"
-    path="/var/log/mqtt-json-logger/topic1.log"
+[[topics]]
+topic = "topic1/#"
+path = "topic1.log"
 
-    [[topics]]
-    topic="topic2/#"
-    path="/var/log/mqtt-json-logger/topic2.log"
+[[topics]]
+topic = "topic2/#"
+path = "topic2.log"
+```
 
 [1]: https://github.com/mqttjs
 [2]: http://jsonlines.org/
