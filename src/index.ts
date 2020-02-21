@@ -46,12 +46,28 @@ const main = recoverable(defer => async () => {
   const configFilePath = args["--config"]!;
   const config = readAndValidateConfig(configFilePath);
 
+  const logWriters: RotatingLogWriter[] = [];
   const mqttClient = await connectAsync(config.broker.url, {
     clean: false,
     clientId: config.broker.clientId,
     username: config.broker.username,
     password: config.broker.password
   });
+
+  const exitHandler = recoverable(() => async () => {
+    mqttClient.removeAllListeners();
+    await mqttClient.unsubscribe(config.topics.map(({ topic }) => topic));
+    await mqttClient.end();
+    await Promise.all(logWriters.map(logWriter => logWriter.close()));
+
+    logger.info("Bye!");
+  });
+
+  process.on("SIGINT", () => {
+    exitHandler().then(() => process.exit(0));
+  });
+
+  process.on("beforeExit", exitHandler);
 
   logger.info(`Connected to MQTT broker: ${config.broker.url}`);
 
@@ -77,6 +93,8 @@ const main = recoverable(defer => async () => {
         maxFiles,
         size
       });
+
+      logWriters.push(rotatingLogWriter);
 
       mqttClient.on(
         "message",
