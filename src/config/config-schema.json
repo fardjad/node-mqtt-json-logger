@@ -51,6 +51,14 @@
             "examples": ["topic1/#"],
             "pattern": "^(.*)$"
           },
+          "qos": {
+            "$id": "#/properties/topics/items/properties/qos",
+            "type": "integer",
+            "examples": [1],
+            "default": 1,
+            "minimum": 0,
+            "maxItems": 2
+          },
           "path": {
             "$id": "#/properties/topics/items/properties/path",
             "type": "string",

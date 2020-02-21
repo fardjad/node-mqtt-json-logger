@@ -56,12 +56,20 @@ const main = recoverable(defer => async () => {
   logger.info(`Connected to MQTT broker: ${config.broker.url}`);
 
   config.topics.forEach(
-    async ({ topic: pattern, path, compress, interval, maxFiles, size }) => {
+    async ({
+      topic: pattern,
+      path,
+      qos,
+      compress,
+      interval,
+      maxFiles,
+      size
+    }) => {
       await mqttClient.subscribe(pattern, {
-        qos: 1
+        qos
       });
 
-      logger.info(`Subscribed to topic: ${pattern}`);
+      logger.info(`Subscribed to topic: ${pattern} with qos=${qos}`);
 
       const rotatingLogWriter = new RotatingLogWriter(path, {
         compress,

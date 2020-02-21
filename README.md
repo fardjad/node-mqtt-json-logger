@@ -32,6 +32,7 @@ size = "1G"
 interval = "1d"
 maxFiles = 14
 compress = "gzip"
+qos = 2
 
 [[topics]]
 topic = "topic2/#"
