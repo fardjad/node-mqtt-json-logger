@@ -1,6 +1,7 @@
 import { createStream, RotatingFileStream } from "rotating-file-stream";
+import { dirname, basename, join as pathJoin } from "path";
 
-const createGenerator = (filename: string, compress?: string) => {
+export const createGenerator = (filename: string, compress?: string) => {
   const pad = (num: number): string => (num > 9 ? "" : "0") + num;
 
   return (time: Date, index?: number): string => {
@@ -11,9 +12,16 @@ const createGenerator = (filename: string, compress?: string) => {
     const hour = pad(time.getHours());
     const minute = pad(time.getMinutes());
 
-    return `${month}${day}-${hour}${minute}-${pad(index!)}-${filename}${
-      compress ? ".gz" : ""
-    }`;
+    const rotatedFilePath = dirname(filename);
+    const nonRotatedFileName = basename(filename);
+    const newFileName = pathJoin(
+      rotatedFilePath,
+      `${month}${day}-${hour}${minute}-${pad(index!)}-${nonRotatedFileName}${
+        compress ? ".gz" : ""
+      }`
+    );
+
+    return newFileName;
   };
 };
 
