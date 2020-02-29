@@ -85,11 +85,19 @@ const main = recoverable(defer => async () => {
       maxFiles,
       size
     }) => {
-      await mqttClient.subscribe(pattern, {
-        qos
-      });
-
-      logger.info(`Subscribed to topic: ${pattern} with qos=${qos}`);
+      mqttClient
+        .subscribe(pattern, {
+          qos
+        })
+        .then(() => {
+          logger.info(`Subscribed to topic: ${pattern} with qos=${qos}`);
+        })
+        .catch(err => {
+          logger.error({
+            msg: `Could not subscribe to topic: ${pattern}`,
+            err
+          });
+        });
 
       const rotatingLogWriter = new RotatingLogWriter(path, {
         compress,
