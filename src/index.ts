@@ -139,6 +139,7 @@ const main = recoverable(defer => async () => {
           const message = {
             pattern,
             topic,
+            receiveTimestamp: Date.now(),
             payload: JSON.parse(payloadString)
           };
 
