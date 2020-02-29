@@ -3,6 +3,7 @@ type BrokerConfig = {
   clientId?: string;
   username?: string;
   password?: string;
+  clean?: boolean;
 };
 
 type TopicSettings = {

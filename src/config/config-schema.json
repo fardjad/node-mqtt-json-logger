@@ -33,6 +33,11 @@
           "type": "string",
           "examples": ["password"],
           "pattern": "^(.*)$"
+        },
+        "clean": {
+          "$id": "#/properties/broker/properties/clean",
+          "type": "boolean",
+          "examples": [true, false]
         }
       }
     },

@@ -48,7 +48,7 @@ const main = recoverable(defer => async () => {
 
   const logWriters: RotatingLogWriter[] = [];
   const mqttClient = await connectAsync(config.broker.url, {
-    clean: false,
+    clean: config.broker.clean,
     clientId: config.broker.clientId,
     username: config.broker.username,
     password: config.broker.password
@@ -69,7 +69,11 @@ const main = recoverable(defer => async () => {
 
   process.on("beforeExit", exitHandler);
 
-  logger.info(`Connected to MQTT broker: ${config.broker.url}`);
+  logger.info(
+    `Connected to MQTT broker: ${
+      config.broker.url
+    } with cleanSession set to ${config.broker.clean || true}`
+  );
 
   config.topics.forEach(
     async ({
