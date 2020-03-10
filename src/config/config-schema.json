@@ -7,37 +7,20 @@
     "broker": {
       "$id": "#/properties/broker",
       "type": "object",
-      "required": ["url"],
+      "required": ["kafkaHost", "groupId"],
       "additionalProperties": false,
       "properties": {
-        "url": {
-          "$id": "#/properties/broker/properties/url",
+        "kafkaHost": {
+          "$id": "#/properties/broker/properties/kafkaHost",
           "type": "string",
-          "examples": ["tcp://broker"],
+          "examples": ["localhost:9092"],
           "pattern": "^(.*)$"
         },
-        "clientId": {
-          "$id": "#/properties/broker/properties/clientId",
+        "groupId": {
+          "$id": "#/properties/broker/properties/groupId",
           "type": "string",
-          "examples": ["mqtt-json-logger"],
+          "examples": ["kafka-node"],
           "pattern": "^(.*)$"
-        },
-        "username": {
-          "$id": "#/properties/broker/properties/username",
-          "type": "string",
-          "examples": ["username"],
-          "pattern": "^(.*)$"
-        },
-        "password": {
-          "$id": "#/properties/broker/properties/password",
-          "type": "string",
-          "examples": ["password"],
-          "pattern": "^(.*)$"
-        },
-        "clean": {
-          "$id": "#/properties/broker/properties/clean",
-          "type": "boolean",
-          "examples": [true, false]
         }
       }
     },
@@ -53,16 +36,8 @@
           "topic": {
             "$id": "#/properties/topics/items/properties/topic",
             "type": "string",
-            "examples": ["topic1/#"],
+            "examples": ["topic1"],
             "pattern": "^(.*)$"
-          },
-          "qos": {
-            "$id": "#/properties/topics/items/properties/qos",
-            "type": "integer",
-            "examples": [1],
-            "default": 1,
-            "minimum": 0,
-            "maxItems": 2
           },
           "path": {
             "$id": "#/properties/topics/items/properties/path",

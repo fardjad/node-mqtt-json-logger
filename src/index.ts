@@ -1,7 +1,5 @@
 import "source-map-support";
 
-import mqttPattern from "mqtt-pattern";
-
 import { parseAndValidateArgs, showUsage } from "./cli";
 import recoverable from "./utils/recoverable";
 import { isDevelopment } from "./config/node-env";
@@ -9,7 +7,7 @@ import ErrorCodeWithExitCode from "./utils/error-code-with-exit-code";
 import { readAndValidateConfig } from "./config/config-loader";
 import logger from "./utils/logger";
 import RotatingLogWriter from "./utils/rotating-log-writer";
-import MQTTBroker from "./broker/mqtt-broker";
+import Broker from "./broker/kafka-broker";
 
 const enableLongStackTraces = async () => {
   Error.stackTraceLimit = Infinity;
@@ -48,10 +46,10 @@ const main = recoverable(defer => async () => {
 
   const logWriters: RotatingLogWriter[] = [];
 
-  const mqttBroker = new MQTTBroker();
+  const broker = new Broker();
 
   const exitHandler = recoverable(() => async () => {
-    await mqttBroker.disconnect();
+    await broker.disconnect();
     await Promise.all(logWriters.map(logWriter => logWriter.close()));
 
     logger.info("Bye!");
@@ -74,9 +72,9 @@ const main = recoverable(defer => async () => {
 
       logWriters.push(rotatingLogWriter);
 
-      mqttBroker.on(
+      broker.on(
         "message",
-        recoverable(defer => async (topic, payload) => {
+        recoverable(defer => async (topic, payload, commit) => {
           const payloadString = payload.toString();
 
           defer(recover => {
@@ -98,7 +96,11 @@ const main = recoverable(defer => async () => {
             });
           });
 
-          if (!mqttPattern.matches(pattern, topic)) {
+          defer(() => {
+            commit();
+          });
+
+          if (!new RegExp(pattern).test(topic)) {
             return;
           }
 
@@ -115,14 +117,17 @@ const main = recoverable(defer => async () => {
     }
   );
 
-  await mqttBroker.connect(
-    config.broker,
+  await broker.connect(
+    {
+      groupId: config.broker.groupId,
+      autoCommit: true,
+      connectOnReady: true,
+      fromOffset: "earliest",
+      kafkaHost: config.broker.kafkaHost
+    },
     config.topics.map(topic => {
       return {
-        topic: topic.topic,
-        options: {
-          qos: topic.qos
-        }
+        topic: topic.topic
       };
     })
   );

@@ -6,7 +6,7 @@ export class CommandLineArgsError extends ErrorCodeWithExitCode {}
 export const showUsage = () => {
   console.log(
     [
-      "Usage: mqtt-json-logger [options]",
+      "Usage: kafka-json-logger [options]",
       "",
       "Options:",
       "  -h, --help\t\tOutput usage information",

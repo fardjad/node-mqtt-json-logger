@@ -51,9 +51,5 @@ export const readAndValidateConfig = (path: string): Config => {
     throw new ConfigError(`Invalid config file! ${ajv.errorsText()}`);
   }
 
-  config.topics.forEach(topic => {
-    topic.qos = topic.qos || 1;
-  });
-
   return config;
 };

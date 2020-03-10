@@ -1,9 +1,9 @@
 {
-  "name": "mqtt-json-logger",
+  "name": "kafka-json-logger",
   "version": "1.0.0",
-  "description": "MQTT JSON message logger with rotation support",
+  "description": "Kafka JSON message logger with rotation support",
   "bin": {
-    "mqtt-json-logger": "./bin/mqtt-json-logger"
+    "kafka-json-logger": "./bin/kafka-json-logger"
   },
   "scripts": {
     "postinstall": "run-s build",
@@ -20,10 +20,9 @@
   "dependencies": {
     "ajv": "^6.11.0",
     "arg": "^4.1.3",
-    "async-mqtt": "^2.5.0",
     "ee-ts": "^1.0.1",
+    "kafka-node": "^5.0.0",
     "longjohn": "^0.2.12",
-    "mqtt-pattern": "^1.2.0",
     "npm-run-all": "^4.1.5",
     "pino": "^5.16.0",
     "rotating-file-stream": "^2.0.2",
