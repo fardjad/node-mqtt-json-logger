@@ -47,14 +47,12 @@ export default class MQTTBroker extends EventEmitter<BrokerEvents>
     );
 
     for (let subscription of subscriptions) {
-      const {
-        topic,
-        options: { qos }
-      } = subscription;
+      const { topic, options } = subscription;
+      const qos = options?.qos;
 
       this.client
         .subscribe(topic, {
-          qos
+          qos: qos || 1
         })
         .then(() => {
           this.subscribedTopics.push(topic);

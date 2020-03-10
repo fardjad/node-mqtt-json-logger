@@ -49,17 +49,6 @@ const main = recoverable(defer => async () => {
   const logWriters: RotatingLogWriter[] = [];
 
   const mqttBroker = new MQTTBroker();
-  await mqttBroker.connect(
-    config.broker,
-    config.topics.map(topic => {
-      return {
-        topic: topic.topic,
-        options: {
-          qos: topic.qos
-        }
-      };
-    })
-  );
 
   const exitHandler = recoverable(() => async () => {
     await mqttBroker.disconnect();
@@ -124,6 +113,18 @@ const main = recoverable(defer => async () => {
         })
       );
     }
+  );
+
+  await mqttBroker.connect(
+    config.broker,
+    config.topics.map(topic => {
+      return {
+        topic: topic.topic,
+        options: {
+          qos: topic.qos
+        }
+      };
+    })
   );
 });
 

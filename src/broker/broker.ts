@@ -1,12 +1,12 @@
 import { EventEmitter } from "ee-ts";
 
 export interface BrokerEvents {
-  message(topic: string, payload: any): void;
+  message(topic: string, payload: any, commit?: Function): void;
 }
 
 export type TopicSubscription<TopicSubscriptionOptions> = {
   topic: string;
-  options: TopicSubscriptionOptions;
+  options?: TopicSubscriptionOptions;
 };
 
 export default interface Broker<
